@@ -28,7 +28,7 @@ import com.bhaskar.service.CustomeUserServiceImplementation;
 @RequestMapping("/auth")
 //@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 
-@CrossOrigin(origins = {"http://localhost:3000", "https://bhaskar-ecom.vercel.app"}, allowedHeaders = "*", allowCredentials = "true")
+@CrossOrigin(origins = {"https://bhaskar-ecom.vercel.app"}, allowedHeaders = "*", allowCredentials = "true")
 public class AuthController {
 	
 	
