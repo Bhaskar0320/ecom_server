@@ -127,7 +127,7 @@ public class AppConfig {
         configuration.setAllowedOrigins(Arrays.asList(
             "http://localhost:3000",
             "http://localhost:4200",
-            "https://bhaskar-ecom.vercel.app/"
+            "https://bhaskar-ecom.vercel.app"
         ));
         
         // Allow all HTTP methods
