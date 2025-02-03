@@ -28,15 +28,24 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 //		    "CASE WHEN :sort = 'price_high' THEN p.discountedPrice END DESC, "+
 //		    "p.createdAt DESC")
 	
+//	
+//	@Query("SELECT p FROM Product p " +
+//	        "WHERE (p.category.name = :category OR :category = '') " +
+//	        "AND ((:minPrice IS NULL AND :maxPrice IS NULL) OR (p.discountedPrice BETWEEN :minPrice AND :maxPrice)) " +
+//		    "AND (:minDiscount IS NULL OR p.discountPersent >= :minDiscount) " +
+//		    "ORDER BY " +
+//		    "CASE WHEN :sort = 'price_low' THEN p.discountedPrice ELSE NULL END ASC, " +
+//		    "CASE WHEN :sort = 'price_high' THEN p.discountedPrice ELSE NULL END DESC, "+
+//		    "p.createdAt DESC")
 	
 	@Query("SELECT p FROM Product p " +
-	        "WHERE (p.category.name = :category OR :category = '') " +
-	        "AND ((:minPrice IS NULL AND :maxPrice IS NULL) OR (p.discountedPrice BETWEEN :minPrice AND :maxPrice)) " +
-		    "AND (:minDiscount IS NULL OR p.discountPersent >= :minDiscount) " +
-		    "ORDER BY " +
-		    "CASE WHEN :sort = 'price_low' THEN p.discountedPrice END ASC, " +
-		    "CASE WHEN :sort = 'price_high' THEN p.discountedPrice END DESC, "+
-		    "p.createdAt DESC")
+		       "WHERE (:category IS NULL OR p.category.name = :category) " +
+		       "AND (:minPrice IS NULL OR :maxPrice IS NULL OR p.discountedPrice BETWEEN :minPrice AND :maxPrice) " +
+		       "AND (:minDiscount IS NULL OR p.discountPersent >= :minDiscount) " +
+		       "ORDER BY " +
+		       "CASE WHEN :sort = 'price_low' THEN p.discountedPrice ELSE NULL END ASC, " +
+		       "CASE WHEN :sort = 'price_high' THEN p.discountedPrice ELSE NULL END DESC, " +
+		       "p.createdAt DESC")
 
 	List<Product> filterProducts(
 	        @Param("category") String category,
