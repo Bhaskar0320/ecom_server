@@ -142,7 +142,10 @@ Optional<Product> opt=productRepository.findById(id);
 
 	@Override
 	public Page<Product> getAllProduct(String category, List<String> colors, List<String> size, Integer minPrice,
-			Integer maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize) {
+			Integer maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize)
+	
+	
+	{
 	Pageable pageable = PageRequest.of(pageNumber, pageSize);
 		
 		List<Product> products = productRepository.filterProducts(category, minPrice, maxPrice, minDiscount, sort);
