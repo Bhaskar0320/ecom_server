@@ -40,12 +40,17 @@ private ProductService productService;
 		Page<Product> res= productService.getAllProduct(category, color, size, minPrice, maxPrice, 
 				minDiscount, sort,stock,pageNumber,pageSize);
 		
+		 if (res.isEmpty()) {
+		        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(res); // 204 No Content if no products found
+		    }
+
+		
 		System.out.println("complete products");
 		return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
 		
 	}
-	
 
+	
 	
 	@GetMapping("/products/id/{productId}")
 	public ResponseEntity<Product> findProductByIdHandler(@PathVariable Long productId) throws ProductException{
