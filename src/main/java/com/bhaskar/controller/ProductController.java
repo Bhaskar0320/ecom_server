@@ -33,7 +33,7 @@ private ProductService productService;
 	
 	
 	@GetMapping("/products")
-	public ResponseEntity<Page<Product>> findProductByCategoryHandler(@PageableDefault(size= 5, sort="id")
+	public ResponseEntity<Page<Product>> findProductByCategoryHandler(
 	        @RequestParam String category,
 	        @RequestParam List<String> color,
 	        @RequestParam List<String> size,
@@ -45,15 +45,29 @@ private ProductService productService;
 	        @RequestParam Integer pageNumber,
 	        @RequestParam Integer pageSize) {
 
+	    // Log the input parameters
+	    System.out.println("Received request with parameters:");
+	    System.out.println("Category: " + category);
+	    System.out.println("Colors: " + color);
+	    System.out.println("Sizes: " + size);
+	    System.out.println("Min Price: " + minPrice);
+	    System.out.println("Max Price: " + maxPrice);
+	    System.out.println("Min Discount: " + minDiscount);
+	    System.out.println("Sort: " + sort);
+	    System.out.println("Stock: " + stock);
+	    System.out.println("Page Number: " + pageNumber);
+	    System.out.println("Page Size: " + pageSize);
+
 	    Page<Product> res = productService.getAllProduct(category, color, size, minPrice, maxPrice, 
 	            minDiscount, sort, stock, pageNumber, pageSize);
 
 	    if (res.isEmpty()) {
+	        System.out.println("No products found for the given criteria.");
 	        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content if no products found
 	    }
 
-	    System.out.println("complete products");
-	    return ResponseEntity.ok(res); // ✅ Returns 200 OK instead of 202
+	    System.out.println("Products found: " + res.getTotalElements());
+	    return ResponseEntity.ok(res); // ✅ Returns 200 OK with products
 	}
 
 //	
@@ -78,13 +92,13 @@ private ProductService productService;
 //	}
 //	
 //	
-//	@GetMapping("/products/id/{productId}")
-//	public ResponseEntity<Product> findProductByIdHandler(@PathVariable Long productId) throws ProductException{
-//		
-//		Product product=productService.findProductById(productId);
-//		
-//		return new ResponseEntity<Product>(product,HttpStatus.ACCEPTED);
-//	}
+	@GetMapping("/products/id/{productId}")
+	public ResponseEntity<Product> findProductByIdHandler(@PathVariable Long productId) throws ProductException{
+		
+		Product product=productService.findProductById(productId);
+		
+		return new ResponseEntity<Product>(product,HttpStatus.ACCEPTED);
+	}
 
 
 	
