@@ -57,6 +57,11 @@ private ProductService productService;
 	    System.out.println("Stock: " + stock);
 	    System.out.println("Page Number: " + pageNumber);
 	    System.out.println("Page Size: " + pageSize);
+	    
+	    // Handle null values for minDiscount
+	    if (minDiscount == null) {
+	        minDiscount = 0; // Set a default value or handle as needed
+	    }
 
 	    Page<Product> res = productService.getAllProduct(category, color, size, minPrice, maxPrice, 
 	            minDiscount, sort, stock, pageNumber, pageSize);
