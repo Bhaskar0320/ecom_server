@@ -31,23 +31,27 @@ private ProductService productService;
 	
 	
 	@GetMapping("/products")
-	public ResponseEntity<Page<Product>> findProductByCategoryHandler(@RequestParam String category,
-			@RequestParam List<String>color,@RequestParam List<String> size,@RequestParam Integer minPrice,
-			@RequestParam Integer maxPrice, @RequestParam Integer minDiscount, @RequestParam String sort, 
-			@RequestParam String stock, @RequestParam Integer pageNumber,@RequestParam Integer pageSize){
+	public ResponseEntity<Page<Product>> findProductByCategoryHandler(
+	        @RequestParam String category,
+	        @RequestParam List<String> color,
+	        @RequestParam List<String> size,
+	        @RequestParam Integer minPrice,
+	        @RequestParam Integer maxPrice,
+	        @RequestParam Integer minDiscount,
+	        @RequestParam String sort,
+	        @RequestParam String stock,
+	        @RequestParam Integer pageNumber,
+	        @RequestParam Integer pageSize) {
 
-		
-		Page<Product> res= productService.getAllProduct(category, color, size, minPrice, maxPrice, 
-				minDiscount, sort,stock,pageNumber,pageSize);
-		
-		 if (res.isEmpty()) {
-		        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(res); // 204 No Content if no products found
-		    }
+	    Page<Product> res = productService.getAllProduct(category, color, size, minPrice, maxPrice, 
+	            minDiscount, sort, stock, pageNumber, pageSize);
 
-		
-		System.out.println("complete products");
-		return new ResponseEntity<>(res,HttpStatus.ACCEPTED);
-		
+	    if (res.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content if no products found
+	    }
+
+	    System.out.println("complete products");
+	    return ResponseEntity.ok(res); // ✅ Returns 200 OK instead of 202
 	}
 
 	
