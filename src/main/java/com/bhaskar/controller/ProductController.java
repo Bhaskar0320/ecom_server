@@ -58,14 +58,16 @@ private ProductService productService;
 	    System.out.println("Page Number: " + pageNumber);
 	    System.out.println("Page Size: " + pageSize);
 	    
+	   
+	    Page<Product> res = productService.getAllProduct(category, color, size, minPrice, maxPrice, 
+	            minDiscount, sort, stock, pageNumber, pageSize);
+
 	    // Handle null values for minDiscount
 	    if (minDiscount == null) {
 	        minDiscount = 0; // Set a default value or handle as needed
 	    }
 
-	    Page<Product> res = productService.getAllProduct(category, color, size, minPrice, maxPrice, 
-	            minDiscount, sort, stock, pageNumber, pageSize);
-
+	    
 	    if (res.isEmpty()) {
 	        System.out.println("No products found for the given criteria.");
 	        return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content if no products found
