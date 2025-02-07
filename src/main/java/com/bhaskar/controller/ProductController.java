@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,7 @@ private ProductService productService;
 	
 	
 	@GetMapping("/products")
-	public ResponseEntity<Page<Product>> findProductByCategoryHandler(
+	public ResponseEntity<Page<Product>> findProductByCategoryHandler(@PageableDefault(size= 5, sort="id")
 	        @RequestParam String category,
 	        @RequestParam List<String> color,
 	        @RequestParam List<String> size,
@@ -84,6 +86,10 @@ private ProductService productService;
 //		return new ResponseEntity<Product>(product,HttpStatus.ACCEPTED);
 //	}
 
+
+	
+	
+	
 	@GetMapping("/products/search")
 	public ResponseEntity<List<Product>> searchProductHandler(@RequestParam String q){
 		
