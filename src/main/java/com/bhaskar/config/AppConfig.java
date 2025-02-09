@@ -201,7 +201,8 @@ public class AppConfig {
 
             // Configure authorization rules
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/**").authenticated() // Secure /api/** endpoints
+                .requestMatchers("/api/**")
+                .authenticated() // Secure /api/** endpoints
                 .anyRequest().permitAll() // Allow all other requests
             )
 
@@ -238,7 +239,7 @@ public class AppConfig {
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         
         // Allow credentials (e.g., cookies)
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(false);
         
         // Expose specific headers in the response
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
