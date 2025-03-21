@@ -8,7 +8,7 @@ WORKDIR /app
 COPY ./target/ecomm_java_backend.jar /app/app.jar 
 
 # Expose the correct port (Verify this in application.properties)
-EXPOSE 5454
+EXPOSE 8080
 
 # Command to run the application
-CMD [ "java", "-jar", "ecomm_java_backend.jar" ]
+CMD [ "java", "-jar", "app.jar" ]
