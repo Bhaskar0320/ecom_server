@@ -1,0 +1,31 @@
+services:
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: Bhaskar@1
+      MYSQL_DATABASE: ecomm_dev
+    ports:
+      - "3306:3306"
+    networks:
+      - ecomm-network
+
+  app:
+    image: ecomm_java_backend
+    environment:
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_NAME: ecomm_dev
+      DB_USERNAME: root
+      DB_PASSWORD: Bhaskar@1
+      RAZORPAY_API_KEY: rzp_test_R2vALAoeILQU8F
+      RAZORPAY_API_SECRET: WRfYn9RyeI7BMCrOtbLe1vZm
+    ports:
+      - "5454:5454"
+    depends_on:
+      - database
+    networks:
+      - ecomm-network
+
+networks:
+  ecomm-network:
+    driver: bridge
