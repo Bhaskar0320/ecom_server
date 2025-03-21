@@ -10,22 +10,23 @@ phases:
       - export REPOSITORY_URI=203070858919.dkr.ecr.eu-north-1.amazonaws.com/aman/ecomm
       - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin $REPOSITORY_URI
       - export IMAGE_TAG=build-$(date +%Y%m%d%H%M%S)
+      - echo "Waiting for MySQL connection..."
+      - until nc -z -v -w30 $DB_HOST 3306; do echo "Waiting for MySQL..."; sleep 5; done
+      - echo "MySQL is reachable!"
 
   build:
     commands:
-      - echo "Build started on $(date)"
       - echo "Building the Docker image..."
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
     commands:
-      - echo "Build completed on $(date)"
       - echo "Pushing the Docker image to ECR..."
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo "Writing image definitions file..."
-      - printf '[{"name":"app","imageUri":"%s"}]' "$REPOSITORY_URI:$IMAGE_TAG" > imagedefinitions.json
+      - printf '[{"name":"ecomm_java_backend","imageUri":"%s"}]' "$REPOSITORY_URI:$IMAGE_TAG" > imagedefinitions.json
       - echo "Contents of imagedefinitions.json:"
       - cat imagedefinitions.json  
 
