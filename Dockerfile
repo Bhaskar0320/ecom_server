@@ -11,4 +11,4 @@ COPY ./target/ecomm_java_backend.jar /app/app.jar
 EXPOSE 5454
 
 # Command to run the application
-CMD [ "java", "-jar", "/app/app.jar" ]
+CMD [ "java", "-jar", "ecomm_java_backend.jar" ]
