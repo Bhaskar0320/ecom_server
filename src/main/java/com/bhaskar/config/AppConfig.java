@@ -190,33 +190,35 @@ public class AppConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // Disable CSRF
-            .csrf().disable()
+                // Disable CSRF
+                .csrf(csrf -> csrf.disable())
 
-            // Configure CORS
-            .cors().configurationSource(corsConfigurationSource()).and()
+                // Configure CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-            // Set session management to stateless (for JWT-based authentication)
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                // Set session management to stateless (for JWT-based authentication)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-            // Configure authorization rules
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/**")
-                .authenticated() // Secure /api/** endpoints
-                .anyRequest().permitAll() // Allow all other requests
-            )
+                // Configure authorization rules
+                .authorizeHttpRequests(authorize -> authorize
+                                .requestMatchers("/api/**")
+                                .authenticated() // Secure /api/** endpoints
+                                .anyRequest().permitAll() // Allow all other requests
+                )
 
-            // Add HTTPS redirection filter
-            .addFilterBefore(new HttpsRedirectFilter(), BasicAuthenticationFilter.class)
+                // Add HTTPS redirection filter
+                .addFilterBefore(new HttpsRedirectFilter(), BasicAuthenticationFilter.class)
 
-            // Add JWT validation filter
-            .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
+                // Add JWT validation filter
+                .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
 
-            // Enable HTTP Basic authentication
-            .httpBasic().and()
+                // Enable HTTP Basic authentication
+                .httpBasic(httpBasic -> {
+                })
 
-            // Enable form login
-            .formLogin();
+                // Enable form login
+                .formLogin(formLogin -> {
+                });
 
         return http.build();
     }
@@ -229,7 +231,8 @@ public class AppConfig {
         configuration.setAllowedOrigins(Arrays.asList(
             "http://localhost:3000",
             "http://localhost:4200",
-            "https://bhaskar-ecom.vercel.app"
+            "https://bhaskar-ecom.vercel.app",
+            "GET", "POST", "PUT", "DELETE"
         ));
         
         // Allow all HTTP methods
